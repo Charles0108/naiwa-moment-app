@@ -1,0 +1,28 @@
+name: Build Apple apps
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  apple:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.7'
+          channel: stable
+          cache: true
+      - name: Resolve and check
+        working-directory: app
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
+      - name: Build macOS and unsigned iOS
+        run: bash tools/build_apple.sh
+      - uses: actions/upload-artifact@v7
+        with:
+          name: NaiwaMoment-Apple
+          path: outputs/apple/*
+          if-no-files-found: error
