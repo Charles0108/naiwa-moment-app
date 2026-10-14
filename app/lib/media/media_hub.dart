@@ -10,8 +10,16 @@ import '../core/focus_controller.dart';
 import '../core/scene_catalog.dart';
 
 class MediaHub extends ChangeNotifier {
-  MediaHub() {
-    videoController = VideoController(_video);
+  MediaHub({bool androidEmulator = false}) {
+    videoController = VideoController(
+      _video,
+      configuration: androidEmulator
+          ? const VideoControllerConfiguration(
+              vo: 'mediacodec_embed',
+              hwdec: 'mediacodec',
+            )
+          : const VideoControllerConfiguration(),
+    );
     _ambient.stream.error.listen(_onError);
     _video.stream.error.listen(_onError);
     _cue.stream.error.listen(_onError);

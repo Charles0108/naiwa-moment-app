@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -36,6 +37,12 @@ Future<void> main(List<String> arguments) async {
     );
   }
   final controller = FocusController(store: PreferencesFocusStore());
+  final androidEmulator =
+      Platform.isAndroid &&
+      await const MethodChannel(
+            'com.alexmercerind/media_kit_video',
+          ).invokeMethod<bool>('Utils.IsEmulator') ==
+          true;
   String? loadError;
   try {
     await controller.load();
@@ -44,6 +51,10 @@ Future<void> main(List<String> arguments) async {
   }
   controller.attachTicker();
   runApp(
-    MomentApp(controller: controller, media: MediaHub(), loadError: loadError),
+    MomentApp(
+      controller: controller,
+      media: MediaHub(androidEmulator: androidEmulator),
+      loadError: loadError,
+    ),
   );
 }
