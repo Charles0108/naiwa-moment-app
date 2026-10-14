@@ -32,7 +32,9 @@
 
 ## Android 验证状态
 
-当前发布包已完成代码检查、计时/布局测试、发布构建和 APK 签名验证。Android 模拟器运行验证结果将在本次发布说明中记录；没有 Android 真机测试结果时，不将其标为实机验证通过。
+0.1.2 已在 **Android 15 / API 35 / x86_64 模拟器**安装并运行，通过 13 项检查：启动、后台返回、进程重启恢复、暂停、休息模式、素材致谢、新场景选择、视频循环、原生音频输出、时长设置、离线计时、专注结束切换休息和统计。另通过代码检查、10 项计时/布局测试及发布 APK 签名验证。
+
+尚无 Android 真机测试结果。已处理播放器在官方模拟器中的视频渲染兼容问题；真实手机使用原生播放器的默认配置。
 
 首次在真实手机安装后，可以这样检查：启动并切换图片/视频；开启环境声；将专注时长改为 1 分钟，检查暂停/继续与结束；计时中切到后台再返回，检查剩余时间；关闭重开应用，检查记录和统计。不同品牌手机的后台行为以实测为准。
 
@@ -55,7 +57,7 @@ flutter build windows --release
 flutter build apk --release
 ```
 
-Windows 构建需 Visual Studio C++ 桌面工具；Android 构建需 JDK 和 Android SDK。Android 自行构建默认使用开发签名，正式发布可通过 `NAIWA_ANDROID_KEYSTORE`、`NAIWA_ANDROID_STORE_PASSWORD`、`NAIWA_ANDROID_KEY_PASSWORD` 指定自己的签名资料。签名文件与口令均不在仓库中。
+Windows 构建需 Visual Studio C++ 桌面工具；Android 构建需 JDK 和 Android SDK。Android 自行构建默认使用开发签名，正式发布可通过 `NAIWA_ANDROID_KEYSTORE`、`NAIWA_ANDROID_STORE_PASSWORD`、`NAIWA_ANDROID_KEY_PASSWORD` 指定自己的签名资料，密钥别名使用 `naiwa_moment`。签名文件与口令均不在仓库中。
 
 macOS/iOS 在 Mac 上执行 `bash tools/build_apple.sh`；也可以手动运行仓库中的「Build Apple apps」工作流。iOS 生成未签名 IPA，安装前仍需使用自己的 Apple ID 签名。
 
